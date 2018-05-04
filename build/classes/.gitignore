@@ -1,3 +1,6 @@
 /Command/
-/DAO/
+/Conexao/
 /Controller/
+/DAO/
+/Model/
+/Service/
