@@ -16,7 +16,7 @@
 
 <div style=" margin-top: 100px; margin-bottom: 100px; margin-right: 150px; margin-left: 80px;">
 
-<form action="inserir" method="post">
+<form action="controller.do" method="post">
   <div class="form-group">
     <label for="email">Nome Pais:</label>
     <input class="form-control" name="Nome">
@@ -29,7 +29,7 @@
     <label for="pwd">Populacao Pais:</label>
     <input class="form-control" name="Populacao">
   </div>
-  <button type="submit" class="btn btn-default">Submit</button>
+  <button type="submit" name="command" value="AdicionarPais" class="btn btn-default">Submit</button>
 </form>
 </div>
 

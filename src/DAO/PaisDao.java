@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class PaisDao {
 	
 	public int IncluirPais(Pais pais){
-		String sqlInsert = "INSERT INTO paises (nome_pais, area_pais, pop_pais) VALUES(?, ?, ?)";
+		String sqlInsert = "INSERT INTO paises (nome, populacao, area) VALUES(?, ?, ?)";
 		//Iniciar Conexao com o banco
 		//Try para verificar se nao ocorre exeptions
 		try {
@@ -20,8 +20,9 @@ public class PaisDao {
 			Connection conn = ConnectionFactory.obtemConexao();
 			PreparedStatement stm = conn.prepareStatement(sqlInsert);
 			stm.setString(1,pais.getNome());
-			stm.setDouble(2,pais.getArea());
-			stm.setLong(3,pais.getPopulacao());
+			stm.setLong(2,pais.getPopulacao());
+			stm.setDouble(3,pais.getArea());
+			
 			stm.execute();
 			
 			//Essa parte e necessaria para poder inserir um valor no ID para mostrar no HTML gerado pelo Controller
@@ -49,7 +50,7 @@ public class PaisDao {
 	
 	public void AtualizarPais(Pais pais) {
 		
-		String sqlAlter = "UPDATE paises SET nome_pais = ?, pop_pais = ?, area_pais=?  WHERE id=?";
+		String sqlAlter = "UPDATE paises SET nome = ?, populacao = ?, area =?  WHERE id=?";
 		System.out.println(sqlAlter);
 		try {
 			Connection conn = ConnectionFactory.obtemConexao();
@@ -81,7 +82,7 @@ public class PaisDao {
 	}
 	
 	public void CarregarPais(Pais pais) {
-		String sqlSelect = "Select nome_pais, area_pais, pop_pais FROM paises WHERE id = ?";
+		String sqlSelect = "Select nome, area, populacao FROM paises WHERE id = ?";
 		try {
 			Connection conn = ConnectionFactory.obtemConexao();
 			PreparedStatement stm = conn.prepareStatement(sqlSelect);
@@ -93,9 +94,9 @@ public class PaisDao {
 			try {
 				if(rs.next()) {
 					// o rs e necessario para poder retornar o resultado da query
-					pais.setNome(rs.getString("nome_pais"));
-					pais.setArea(rs.getDouble("area_pais"));
-					pais.setPopulacao(rs.getLong("pop_pais"));
+					pais.setNome(rs.getString("nome"));
+					pais.setArea(rs.getDouble("area"));
+					pais.setPopulacao(rs.getLong("populacao"));
 				}else {
 					pais.setId(-1);
 					pais.setNome(null);
@@ -128,9 +129,9 @@ public class PaisDao {
 				while(rs.next()) {
 					Pais p = new Pais();
 					p.setId(rs.getInt("id"));
-					p.setNome(rs.getString("nome_pais"));
-					p.setArea(rs.getDouble("area_pais"));
-					p.setPopulacao(rs.getLong("pop_pais"));
+					p.setNome(rs.getString("nome"));
+					p.setArea(rs.getDouble("area"));
+					p.setPopulacao(rs.getLong("populacao"));
 					array.add(p);
 					System.out.println("entrei no array");
 				}
@@ -152,7 +153,7 @@ public class PaisDao {
 	
 	public void getMenorArea(Pais pais) {
 		try {
-		String sqlQuery = "Select * from paises where area_pais = (Select Min(area_pais) from paises)";
+		String sqlQuery = "Select * from paises where area = (Select Min(area) from paises)";
 		Connection conn  = ConnectionFactory.obtemConexao();
 		PreparedStatement stm = conn.prepareStatement(sqlQuery);
 		
@@ -161,9 +162,9 @@ public class PaisDao {
 		
 		if(rs.next()) {
 			pais.setId(rs.getInt("id"));
-			pais.setNome(rs.getString("nome_pais"));
-			pais.setArea(rs.getDouble("area_pais"));
-			pais.setPopulacao(rs.getLong("pop_pais"));
+			pais.setNome(rs.getString("nome"));
+			pais.setArea(rs.getDouble("area"));
+			pais.setPopulacao(rs.getLong("populacao"));
 		}
 		
 		}catch(SQLException e) {
@@ -184,9 +185,9 @@ public class PaisDao {
 		
 		if(rs.next()) {
 			pais.setId(rs.getInt("id"));
-			pais.setNome(rs.getString("nome_pais"));
-			pais.setArea(rs.getDouble("area_pais"));
-			pais.setPopulacao(rs.getLong("pop_pais"));
+			pais.setNome(rs.getString("nome"));
+			pais.setArea(rs.getDouble("area"));
+			pais.setPopulacao(rs.getLong("populacao"));
 		}
 		
 		}catch(SQLException e) {
@@ -210,7 +211,7 @@ public class PaisDao {
 		ResultSet rs = stm.executeQuery();
 		
 		while(rs.next() && cont < 3) {
-			vet[cont] = rs.getString("nome_pais");
+			vet[cont] = rs.getString("nome");
 			cont++;
 		}
 		
